@@ -1,0 +1,5 @@
+C:\Users\xia.he\Anaconda3\Scripts\activate
+hortisem-env\Scripts\activate.bat
+
+
+

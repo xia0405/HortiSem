@@ -1,0 +1,17 @@
+#  find the location of your Prodigy installation
+python -c "import prodigy;print(prodigy.__file__)"
+
+# loook at the annotated data
+python -m prodigy db-out hortisem_KEM_data > ./annotations_2.jsonl
+
+# download pre-trained model,German multi-task CNN trained on the TIGER and WikiNER corpora.
+python -m spacy download de_core_news_sm
+python -m spacy download de_core_news_lg
+
+python -m prodigy ner.manual Kultur_model blank:de M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label Kultur,Erreger,Mittel,BBCH_Stadium --patterns .\data\dictionary_jsonl\Kultur.jsonl
+python -m prodigy ner.manual hortisem_KEM_data blank:de M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label Kultur,Erreger,Mittel --patterns .\data\patterns_jsonl\patterns.jsonl
+
+python -m prodigy train ner hortisem_KEM_data de_core_news_sm --output ./tmp_model --eval-split 0.2
+python -m prodigy ner.correct hortisem_KEM_data_correct ./tmp_model M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label Kultur,Erreger,Mittel --exclude hortisem_KEM_data
+
+python -m prodigy ner.correct hortisem_KEM_data_correct ./tmp_model M:\Projekt\HortiSem\data\input_text\Feldbau_BB_2020.jsonl --label Kultur,Erreger,Mittel

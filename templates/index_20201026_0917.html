@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" type="image/png" href="static/img/favicon.png">
+
+    <title>Demo</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="static/thirdparty/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom styles for this template -->
+    <link href="static/css/demo.css" rel="stylesheet">
+
+    <script src="static/thirdparty/jquery/jquery-3.4.1.min.js"></script>
+  </head>
+
+<body>
+  <header>
+    
+
+    <div class="branding">
+        <a href="/dashboard" class="nav-link">
+            <div id="brand-icon">
+                <img src="static/img/jki_logo.png" alt="logo" height="60" width="100">
+            </div>
+        </a>
+    </div>
+    <div class="header-nav" id="tab-nav">
+        <span class="tabnav ">
+            <a class="" href="#">HortiSem</a>
+        </span>
+            </div>
+
+    <div class="user-pulldown">
+        <a href="javascript://" class="call-user-pulldown"><i class="fas fa-user-circle" style=""></i></a>
+    </div>
+ </header>
+
+
+ <main role="main">   
+  <div class="container-fluid default-margin-y">
+      <div class="row">
+          <div class="col-sm-12">
+              <div class="upload-form">
+                  <form method="post" action="" enctype="multipart/form-data">
+                      <div class="form-group">
+                          <label for="login">File</label>
+                          <input type="file" class="form-control" id="file" name="file">
+                      </div>
+                      <button class="btn btn-sm btn-primary float-right" id="upload_button" >Predict</button>
+                      <br>
+                      <h3 class="h3 mb-3 font-weight-normal">Entities: {{ents}}</h3>
+                  </form>
+              </div>
+
+              <div id="result-container">
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+ </main>
+
+ <footer class="text-muted">
+    
+ </footer>
+
+</body>
+</html>
+
