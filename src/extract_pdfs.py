@@ -67,8 +67,8 @@ def get_pdf_stream(pdf_dir):
 # Define the pdf path and output path
 #pdf_dir = 'C:/Users/xia.he/Desktop/HortiSem/data/wm/Warndienstmeldungen_AC_/BB/Jahr2020/Feldbau'
 # Gemüsebau pdf path from BW
-pdf_dir = 'M:\Projekt\HortiSem\data\wm\Warndienstmeldungen_AC_\BB\Jahr2020\Feldbau'
-text_dir = 'M:\Projekt\HortiSem\data\input_text\Feldbau_BB_2020.jsonl'
+pdf_dir = 'M:\Projekt\HortiSem\data\WD-Meldungen2019\BB\Jahr2019\Gemuesebau'
+text_dir = 'M:\Projekt\HortiSem\data\input_text\Gemuesebau_BB_2019.jsonl'
 
 
 # Create a .jsonl file from the text
