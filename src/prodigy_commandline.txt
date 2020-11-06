@@ -15,3 +15,9 @@ python -m prodigy train ner hortisem_KEM_data de_core_news_sm --output ./tmp_mod
 python -m prodigy ner.correct hortisem_KEM_data_correct ./tmp_model M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label Kultur,Erreger,Mittel --exclude hortisem_KEM_data
 
 python -m prodigy ner.correct hortisem_KEM_data_correct ./tmp_model M:\Projekt\HortiSem\data\input_text\Feldbau_BB_2020.jsonl --label Kultur,Erreger,Mittel
+
+
+# list all the datasets present in the database
+python -m prodigy stats -l
+
+python -m prodigy ner.manual hortisem_BOD_data blank:de M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label BBCH_Stadium,Ort,Datum --patterns .\data\patterns_jsonl\BOD_patterns.jsonl

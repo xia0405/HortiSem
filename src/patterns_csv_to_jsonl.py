@@ -8,18 +8,18 @@ from glob import glob
 
 # define the file path and output file path
 base_path = Path("M:\Projekt\HortiSem\data")
-inputfile_path = base_path/'dictionary_BBCH_Stadium'
+inputfile_path = base_path/'dictionary_BOD_csv'
 outputfile_path = base_path/'dictionary_jsonl'
 
 # get a list of all the files with .dsv
 all_input_files = inputfile_path.glob('*.csv')
 
 # a function to read one csv file
-def read_csv(file):
+def read_csv(file,label):
     # read csv into a dictionary
     reader = csv.DictReader(open(file,'r'),delimiter=',')
     for row in reader:
-        yield {"label":"BBCH_Stadium","pattern": row["KODETEXT"]} 
+        yield {"label":label,"pattern": row["KODETEXT"]} 
        
 # # a function to read one csv file
 # def read_csv(file,label):
@@ -43,9 +43,9 @@ def read_csv(file):
 patterns_filepath = base_path/'patterns_jsonl'
 new_patterns = []
 for f in all_input_files:
-    for text in read_csv(f):
+    for text in read_csv(f,f.stem):
         data = ujson.dumps(text, escape_forward_slashes= False,ensure_ascii= False)
         new_patterns.append(data)
-Path(patterns_filepath ,"BBCH_patterns.jsonl").open('w',encoding="utf-8").write('\n'.join(new_patterns))
+Path(patterns_filepath ,"BOD_patterns.jsonl").open('w',encoding="utf-8").write('\n'.join(new_patterns))
 
 
