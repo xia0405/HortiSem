@@ -94,6 +94,8 @@
     labelOrder.push("Kultur");
     labelOrder.push("Erreger");
     labelOrder.push("Mittel");
+    labelOrder.push("BBCH_Stadium");
+    labelOrder.push("Auftreten");
 
 
     // initialize handlers, after the browser is ready setting up the DOM.
@@ -148,6 +150,10 @@
 
     });
 
+    function displayLabel(key) {
+        return key.replace("_"," ");
+    }
+
     function displayResults() {
         $("#result-container").html('');
         // for (let key in labelEntities) {
@@ -159,7 +165,7 @@
 
             let labelName = document.createElement('span');
             labelName.className = 'entity-label';
-            labelName.textContent = key;
+            labelName.textContent = displayLabel(key);
 
             let labelContainer = document.createElement('div');
             labelContainer.className = 'result-container-labels';

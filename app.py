@@ -11,6 +11,9 @@ import shutil
 import slate3k as slate
 from ml import nlp
 
+from spacy.matcher import PhraseMatcher
+from spacy.tokens import Span
+
 from typing import Optional
 from typing import List
 
@@ -32,6 +35,33 @@ templates = Jinja2Templates(directory="templates")
 
 UPLOAD_FOLDER = r"M:\Projekt\HortiSem\static\upload_folder"
 # ALLOWED_EXTENTIONS = {'pdf'}
+class EntityMatcher(object):
+    # name = "entity_matcher"
+
+    def __init__(self, nlp, terms, label):
+        patterns = [nlp.make_doc(text) for text in terms]
+        self.matcher = PhraseMatcher(nlp.vocab)
+        self.matcher.add(label, None, *patterns)
+
+    def __call__(self, doc):
+        matches = self.matcher(doc)
+        for match_id, start, end in matches:
+            span = Span(doc, start, end, label=match_id)
+            doc.ents = list(doc.ents) + [span]
+        return doc
+
+weather_terms = ("trocken","nachtfrostfreie Perioden","milde Winter","milde Witterung","frühlingshaft warme Witterung","Unwetter","Regen","Sturm","Frostgefahr","wüchsige Witterungsverhältnisse","ergiebige Niederschläge","zu trocken","warme und trockeneSpätsommerwitterung","anhaltende Trockenheit","lokal begrenzte Niederschläge")
+auftreten_terms = ("vereinzelt","geringe Häufigkeit","sporadisch","örtlich","häufiger Befall")
+resistenz_terms = ("Resistenzmanagement","Resistenzen gegenüber Wirkstoffen", "tendenzielle Zunahme von Resistenzen","FOP-Resistenz","Resistenzentwicklung","resistente Rassen","Wirkort-Resistenz")
+
+regex_expression = r"BBCH(\s?\d+)(\s?\/?\-?\s?)(\d+)?"
+def add_regex_entities(doc):
+    #entities = []
+    for match in re.finditer(regex_expression, doc.text):  # find match in text
+        start, end = match.span()  # get the matched token indices
+        span = doc.char_span(start, end, label="BBCH_Stadium")
+        doc.ents = list(doc.ents) + [span]
+    return doc
 
 def pdf_converter(pdf_path):
     # Read pdf and convert to plain text
@@ -49,6 +79,19 @@ def predict(text, nlp_model):
     for ent in doc.ents:
         ents.append({"entity":ent.text, "label":ent.label_})
     return ents
+
+# add custom components
+nlp.add_pipe(add_regex_entities, name="add_regex_match",before="ner")
+
+entity_matcher_w = EntityMatcher(nlp, weather_terms, "Witterung")
+entity_matcher_auf = EntityMatcher(nlp, auftreten_terms, "Auftreten")
+entity_matcher_r = EntityMatcher(nlp, resistenz_terms, "Resistenz")
+
+nlp.add_pipe(entity_matcher_w, name="entity_matcher_w",after="ner")
+
+nlp.add_pipe(entity_matcher_auf,name="entity_matcher_auf", after="ner")
+
+nlp.add_pipe(entity_matcher_r, name="entity_matcher_r",after="ner")
 
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile = File(...)):
