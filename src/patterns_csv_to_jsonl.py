@@ -9,7 +9,7 @@ from glob import glob
 # define the file path and output file path
 base_path = Path("M:\Projekt\HortiSem\data")
 inputfile_path = base_path/'dictionary_BOD_csv'
-outputfile_path = base_path/'dictionary_jsonl'
+# outputfile_path = base_path/'dictionary_jsonl'
 
 # get a list of all the files with .dsv
 all_input_files = inputfile_path.glob('*.csv')

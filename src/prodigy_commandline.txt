@@ -20,4 +20,4 @@ python -m prodigy ner.correct hortisem_KEM_data_correct ./tmp_model M:\Projekt\H
 # list all the datasets present in the database
 python -m prodigy stats -l
 
-python -m prodigy ner.manual hortisem_BOD_data blank:de M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label BBCH_Stadium,Ort,Datum --patterns .\data\patterns_jsonl\BOD_patterns.jsonl
+python -m prodigy ner.manual hortisem_ABDOWZ_data blank:de M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label Auftreten,BBCH_Stadium,Ort,Witterung,Zeit --patterns .\data\patterns_jsonl\BOD_patterns.jsonl
