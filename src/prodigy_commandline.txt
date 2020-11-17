@@ -11,7 +11,7 @@ python -m spacy download de_core_news_lg
 python -m prodigy ner.manual Kultur_model blank:de M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label Kultur,Erreger,Mittel,BBCH_Stadium --patterns .\data\dictionary_jsonl\Kultur.jsonl
 python -m prodigy ner.manual hortisem_KEM_data blank:de M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label Kultur,Erreger,Mittel --patterns .\data\patterns_jsonl\patterns.jsonl
 
-python -m prodigy train ner hortisem_KEM_data de_core_news_sm --output ./tmp_model --eval-split 0.2
+
 python -m prodigy ner.correct hortisem_KEM_data_correct ./tmp_model M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label Kultur,Erreger,Mittel --exclude hortisem_KEM_data
 
 python -m prodigy ner.correct hortisem_KEM_data_correct ./tmp_model M:\Projekt\HortiSem\data\input_text\Feldbau_BB_2020.jsonl --label Kultur,Erreger,Mittel
@@ -21,3 +21,14 @@ python -m prodigy ner.correct hortisem_KEM_data_correct ./tmp_model M:\Projekt\H
 python -m prodigy stats -l
 
 python -m prodigy ner.manual hortisem_ABDOWZ_data blank:de M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label Auftreten,BBCH_Stadium,Ort,Witterung,Zeit --patterns .\data\patterns_jsonl\BOD_patterns.jsonl
+
+# training the models
+python -m prodigy train ner hortisem_KEM_data de_core_news_sm --output ./tmp_model --eval-split 0.2
+python -m prodigy train ner hortisem_KEM_data,hortisem_KEM_data_correct de_core_news_sm --output ./tmp_model --eval-split 0.2
+python -m prodigy train ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_BOD_data,hortisem_ABDOWZ_data de_core_news_sm --output ./tmp_model_v1 --eval-split 0.2
+python -m prodigy train ner hortisem_BOD_data,hortisem_ABDOWZ_data ./tmp_model --output ./tmp_model_v2 --eval-split 0.2
+
+
+# merge annotations and export a training corpus
+python -m prodigy data-to-spacy ./train-data.json ./eval-data.json --lang de --ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_BOD_data,hortisem_ABDOWZ_data --eval-split 0.2
+python -m spacy train de ./model ./train-data.json ./eval-data.json --pipeline ner --n-iter 15
