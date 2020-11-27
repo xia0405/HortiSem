@@ -8,8 +8,9 @@ import os
 import re
 import shutil
 import csv
-# import base64
-import slate3k as slate
+import tika
+tika.initVM()
+from tika import parser
 
 import spacy
 
@@ -20,6 +21,8 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi import Request
 from starlette.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+
+
 
 app = FastAPI(
     title="{{HortiSem.Named_Entity_Recognition}}",
@@ -37,17 +40,14 @@ UPLOAD_FOLDER = r"M:\Projekt\HortiSem\static\upload_folder"
 # nlp = spacy.load("M:/Projekt/HortiSem/tmp_model_v1")
 
 # rule model using statistics
-nlp = spacy.load("M:/Projekt/HortiSem/rule_model")
+nlp = spacy.load("M:/Projekt/HortiSem/hybrid_model")
 # ALLOWED_EXTENTIONS = {'pdf'}
 
 def pdf_converter(pdf_path):
     # Read pdf and convert to plain text
-    with open(pdf_path, 'rb') as f:  
-        texts = slate.PDF(f)
-    # join multiple pages into one text
-    doc = ' '.join(texts)
+    pdf_contents = parser.from_file(pdf_path)
     # clear text
-    cleared_doc = re.sub(r'(\n{1,})|(\f)','',doc)  
+    cleared_doc = re.sub(r'(\n{1,})|(\f)','',pdf_contents["content"])  
     return cleared_doc
 
 def predict(text, nlp_model):
