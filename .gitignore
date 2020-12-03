@@ -20,6 +20,7 @@ dmypy.json
 data
 .vscode
 hortisem-env
+.env
 presentations
 Prodigy
 ref_DB
@@ -27,3 +28,6 @@ ref_info
 HortiSem
 *.pub
 papers
+hybrid_model
+model
+spacy_model

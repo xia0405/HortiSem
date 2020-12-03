@@ -12,8 +12,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # define the paths of input pdf files and the desired output in jsonl format
-pdf_dir = r'M:\Projekt\HortiSem\data\test_data'
-text_dir = r'M:\Projekt\HortiSem\data\input_text\test_data_par.jsonl'
+pdf_dir = r'M:\Projekt\HortiSem\data\WD-Meldungen2019\HE\Jahr2017\Feldbau'
+text_dir = r'M:\Projekt\HortiSem\data\input_text\Feldbau_HE_2017.jsonl'
 
 # # PDF file Prodigy streams generators
 # def get_pdf_stream(pdf_dir):
@@ -36,15 +36,15 @@ def get_pdf_stream(pdf_dir):
                 pdf_contents = parser.from_file(path_to_pdf)
                 doc = pdf_contents["content"]
                  # split the doc into paragraphs
-                cleared_doc = re.sub(r'(\n\s{2,})|(\n\f)|(\f)|(\n-)','',doc) # clear text
-                paragraphs = re.split(r'\n{2,}',cleared_doc)
+                # cleared_doc = re.sub(r'(\s{1,})','',doc) # clear text
+                paragraphs = re.split(r'\.\s?\n{2,}',doc)
 
                 # paragraph starts from 1
                 par_id = 1
                 # loop over each paragraph to assign a id
                 for par in paragraphs:
-                    cleared_par = re.sub(r'(-\n)|(\n{1,})','',par)  # clear text
-                    cleared_par = re.sub(r'[W]\s','W',cleared_par)  # clear text
+                    cleared_par = re.sub(r'\n','',par)  # clear text (-\n)|
+                    # cleared_par = re.sub(r'[W]\s','W',cleared_par)  # clear text
                     yield {'text': cleared_par,'meta':{'Source':pdf_file, 'Paragraph_id':par_id}}
                     par_id +=1  #update paragraph id
 

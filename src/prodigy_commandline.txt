@@ -22,13 +22,34 @@ python -m prodigy stats -l
 
 python -m prodigy ner.manual hortisem_ABDOWZ_data blank:de M:\Projekt\HortiSem\data\input_text\gemuese_BW_2016_2017.jsonl --label Auftreten,BBCH_Stadium,Ort,Witterung,Zeit --patterns .\data\patterns_jsonl\BOD_patterns.jsonl
 
+python -m prodigy ner.manual hortisem_ABDOWZ_data blank:de M:\Projekt\HortiSem\data\input_text\Feldbau_BB_2020.jsonl --label Auftreten,BBCH_Stadium,Ort,Witterung,Zeit --patterns .\data\patterns_jsonl\BOD_patterns.jsonl
+
 # training the models
 python -m prodigy train ner hortisem_KEM_data de_core_news_sm --output ./tmp_model --eval-split 0.2
 python -m prodigy train ner hortisem_KEM_data,hortisem_KEM_data_correct de_core_news_sm --output ./tmp_model --eval-split 0.2
 python -m prodigy train ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_BOD_data,hortisem_ABDOWZ_data de_core_news_sm --output ./tmp_model_v1 --eval-split 0.2
-python -m prodigy train ner hortisem_BOD_data,hortisem_ABDOWZ_data ./tmp_model --output ./tmp_model_v2 --eval-split 0.2
+python -m prodigy train ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_ABDOWZ_data,gemuese_BB_2020 de_core_news_sm --output ./tmp_model_v2 --eval-split 0.2
 
 
 # merge annotations and export a training corpus
 python -m prodigy data-to-spacy ./train-data.json ./eval-data.json --lang de --ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_BOD_data,hortisem_ABDOWZ_data --eval-split 0.2
 python -m spacy train de ./model ./train-data.json ./eval-data.json --pipeline ner --n-iter 15
+
+
+# evaluation
+python -m spacy evaluate ./hybrid_model eval-data.json
+
+
+python -m spacy info
+
+######20.11.2020####
+python -m prodigy ner.correct gemuese_BB_2020 ./tmp_model_v2 M:\Projekt\HortiSem\data\input_text\Gemuese_BB_2020.jsonl --label Kultur,Erreger,Mittel,Auftreten,BBCH_Stadium,Ort,Witterung,Zeit
+
+# delete the dataset from db
+python -m prodigy drop Kultur_model
+
+
+
+db-merge
+###### 30.11.2020 test dataset #############
+python -m prodigy ner.correct test_data ./tmp_model_v2 M:\Projekt\HortiSem\data\input_text\test_data_par.jsonl --label Kultur,Erreger,Mittel,Auftreten,BBCH_Stadium,Ort,Witterung,Zeit

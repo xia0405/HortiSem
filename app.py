@@ -22,6 +22,12 @@ from fastapi import Request
 from starlette.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+# from ml import nlp
+
+# from spacy.language import Language
+# # Language.factories["RegexMatcher"] = lambda nlp, **cfg: RegexMatcher(nlp, **cfg)
+# Language.factories['entity_ruler_BOD_patterns'] = lambda nlp, **cfg: RegexMatcher(nlp,r"BBCH(\s?\d+)\s?(\/|\-|(bis)?)\s?(\d+)?","BBCH_Stadium")
+# Language.factories['entity_ruler_patterns'] = lambda nlp, **cfg: RegexMatcher(nlp,r"\d{1,2}\.\d{1,2}\.\d{2,4}","Zeit")
 
 
 app = FastAPI(
@@ -37,7 +43,7 @@ templates = Jinja2Templates(directory="templates")
 UPLOAD_FOLDER = r"M:\Projekt\HortiSem\static\upload_folder"
 
 # ML model
-# nlp = spacy.load("M:/Projekt/HortiSem/tmp_model_v1")
+# nlp = spacy.load("M:/Projekt/HortiSem/tmp_model_v2")
 
 # rule model using statistics
 nlp = spacy.load("M:/Projekt/HortiSem/hybrid_model")
