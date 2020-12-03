@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+spacy
+slate3k
+jsonlines
+tika
+ujson
