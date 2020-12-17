@@ -35,9 +35,13 @@ python -m prodigy train ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem
 python -m prodigy data-to-spacy ./train-data.json ./eval-data.json --lang de --ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_BOD_data,hortisem_ABDOWZ_data --eval-split 0.2
 python -m spacy train de ./model ./train-data.json ./eval-data.json --pipeline ner --n-iter 15
 
+python -m prodigy data-to-spacy -l de -n test_data ./spacy_data.json
+# to check the count of each entity class
+python -m spacy debug-data de ./spacy_data.json ./spacy_data.json -p ner -V
 
 # evaluation
 python -m spacy evaluate ./hybrid_model eval-data.json
+python -m spacy evaluate ./hybrid_model spacy_data.json
 
 
 python -m spacy info
@@ -53,3 +57,8 @@ python -m prodigy drop Kultur_model
 db-merge
 ###### 30.11.2020 test dataset #############
 python -m prodigy ner.correct test_data ./tmp_model_v2 M:\Projekt\HortiSem\data\input_text\test_data_par.jsonl --label Kultur,Erreger,Mittel,Auftreten,BBCH_Stadium,Ort,Witterung,Zeit
+
+
+
+#########  16.12.2020  Feldbau_HE_2017 ###########
+python -m prodigy ner.correct Feldbau_HE_2017 ./tmp_model_v2 M:\Projekt\HortiSem\data\input_text\Feldbau_HE_2017.jsonl --label Kultur,Erreger,Mittel,Auftreten,BBCH_Stadium,Ort,Witterung,Zeit

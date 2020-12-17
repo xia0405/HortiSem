@@ -52,17 +52,6 @@ UPLOAD_FOLDER = r"M:\Projekt\HortiSem\static\upload_folder"
 nlp = spacy.load("M:/Projekt/HortiSem/hybrid_model")
 # ALLOWED_EXTENTIONS = {'pdf'}
 
-# Entity types in uppercase
-colors = {"KULTUR": "#33ff3c", 
-          "ERREGER": " #e0ff33 ",
-          "MITTEL":"  #98d7f9  ", 
-          "ORT":" #a233ff ",
-          "ZEIT": " #19c5e8 ",
-          "AUFTRETEN": "  #f998d1  ",
-          "BBCH_STADIUM":" #d0f998 ",
-          "WITTERUNG": "linear-gradient(90deg, #aa9cfc, #fc9ce7)"}
-options = {"ents": ["KULTUR", "ERREGER","MITTEL", "ORT","ZEIT","AUFTRETEN","BBCH_STADIUM","WITTERUNG"], "colors": colors}
-
 def pdf_converter(pdf_path):
     # Read pdf and convert to plain text
     pdf_contents = parser.from_file(pdf_path)
@@ -71,13 +60,12 @@ def pdf_converter(pdf_path):
     return pdf_contents["content"]
 
 def predict(text, nlp_model):
-    text = re.sub(r'(\n{2,})|(\f)','',text)  
     doc = nlp_model(text)
-    html = displacy.render(doc,style="ent", options=options)    
+    html = displacy.render(doc,style="ent")
     ents = []
     for ent in doc.ents:
         ents.append({"entity":ent.text, "label":ent.label_})    
-    return {"ents":ents,"html":html}
+    return {ents:ents,html:html}
 
 
 
@@ -95,7 +83,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     # Predict
     ents = predict(input_text,nlp)
     # print(ents)
-    return {"filename": file.filename, "text":input_text,"ents":ents["ents"],"html":ents["html"]}
+    return {"filename": file.filename, "text":input_text,"ents":ents["ents"]}
     
 @app.get("/")
 async def index(request: Request):
