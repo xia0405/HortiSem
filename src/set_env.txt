@@ -4,3 +4,12 @@ hortisem-env\Scripts\activate.bat
 .env\Scripts\activate
 
 pip install -r requirements.txt
+
+########## Spacy3 #################
+python -m venv .spacy3-env
+.spacy3-env\Scripts\activate
+pip install -U spacy
+python -m spacy download de_core_news_sm
+
+// failed to download using above request method because of proxy. Download the model and pip install the file path to the tar.gz.model file
+pip install de_core_news_sm-3.0.0.tar.gz

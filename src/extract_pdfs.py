@@ -12,8 +12,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # define the paths of input pdf files and the desired output in jsonl format
-pdf_dir = r'M:\Projekt\HortiSem\data\WD-Meldungen2019\HE\Jahr2017\Feldbau'
-text_dir = r'M:\Projekt\HortiSem\data\input_text\Feldbau_HE_2017.jsonl'
+pdf_dir = r'M:\Projekt\HortiSem\data\WD-Meldungen2019\MV\Neubrandenburg\2020'
+text_dir = r'M:\Projekt\HortiSem\data\input_text\Feldbau_MV_Neubrandenburg_2020.jsonl'
 
 # # PDF file Prodigy streams generators
 # def get_pdf_stream(pdf_dir):
@@ -37,7 +37,8 @@ def get_pdf_stream(pdf_dir):
                 doc = pdf_contents["content"]
                  # split the doc into paragraphs
                 # cleared_doc = re.sub(r'(\s{1,})','',doc) # clear text
-                paragraphs = re.split(r'\.\s?\n{2,}',doc)
+                # paragraphs = re.split(r'\.\s?\n{2,}',doc)
+                paragraphs = re.split(r'\.\s{2,}',doc)
 
                 # paragraph starts from 1
                 par_id = 1

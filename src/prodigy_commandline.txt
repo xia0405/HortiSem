@@ -35,7 +35,7 @@ python -m prodigy train ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem
 python -m prodigy data-to-spacy ./train-data.json ./eval-data.json --lang de --ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_BOD_data,hortisem_ABDOWZ_data --eval-split 0.2
 python -m spacy train de ./model ./train-data.json ./eval-data.json --pipeline ner --n-iter 15
 
-python -m prodigy data-to-spacy -l de -n test_data ./spacy_data.json
+python -m prodigy data-to-spacy -l de -n test_data ./spacy_test_data.json
 # to check the count of each entity class
 python -m spacy debug-data de ./spacy_data.json ./spacy_data.json -p ner -V
 
@@ -62,3 +62,20 @@ python -m prodigy ner.correct test_data ./tmp_model_v2 M:\Projekt\HortiSem\data\
 
 #########  16.12.2020  Feldbau_HE_2017 ###########
 python -m prodigy ner.correct Feldbau_HE_2017 ./tmp_model_v2 M:\Projekt\HortiSem\data\input_text\Feldbau_HE_2017.jsonl --label Kultur,Erreger,Mittel,Auftreten,BBCH_Stadium,Ort,Witterung,Zeit
+
+
+######### 02.02.2021 ###############
+python -m prodigy data-to-spacy ./training-data.json -l de -n hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_ABDOWZ_data,gemuese_BB_2020,Feldbau_HE_2017
+python -m spacy debug-data de ./training-data.json ./spacy_test_data.json -p ner -V
+
+
+######### 04.02.2021 ##############
+python -m prodigy ner.correct Feldbau_MV_Greifswald_2015 ./tmp_model_v2 M:\Projekt\HortiSem\data\input_text\Feldbau_MV_Greifswald_2015.jsonl --label Kultur,Erreger,Mittel,Auftreten,BBCH_Stadium,Ort,Witterung,Zeit
+
+python -m prodigy data-to-spacy ./train-data.json ./eval-data.json --lang de --ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_ABDOWZ_data,gemuese_BB_2020,Feldbau_HE_2017 --eval-split 0.2
+
+
+python -m prodigy db-out hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_ABDOWZ_data,gemuese_BB_2020,Feldbau_HE_2017,Feldbau_MV_Greifswald_2015,Feldbau_MV_Neubrandenburg_2020 > ./train_25022021.jsonl
+
+
+python -m prodigy ner.correct Feldbau_MV_Neubrandenburg_2020 ./tmp_model_v2 M:\Projekt\HortiSem\data\input_text\Feldbau_MV_Neubrandenburg_2020.jsonl --label Kultur,Erreger,Mittel,Auftreten,BBCH_Stadium,Ort,Witterung,Zeit
