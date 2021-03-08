@@ -12,8 +12,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # define the paths of input pdf files and the desired output in jsonl format
-pdf_dir = r'M:\Projekt\HortiSem\data\WD-Meldungen2019\MV\Neubrandenburg\2020'
-text_dir = r'M:\Projekt\HortiSem\data\input_text\Feldbau_MV_Neubrandenburg_2020.jsonl'
+pdf_dir = r'M:\Projekt\HortiSem\data\WD-Meldungen2019\MV\Rostock\2015'
+text_dir = r'M:\Projekt\HortiSem\data\input_text\Feldbau_MV_Rostock_2015.jsonl'
 
 # # PDF file Prodigy streams generators
 # def get_pdf_stream(pdf_dir):

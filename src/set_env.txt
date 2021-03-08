@@ -1,11 +1,16 @@
+// In PC
 C:\Users\xia.he\Anaconda3\Scripts\activate
 hortisem-env\Scripts\activate.bat
+
+// In new laptop
+C:\ProgramData\Anaconda3\Scripts\activate
+.spacy2-env\Scripts\activate
 
 .env\Scripts\activate
 
 pip install -r requirements.txt
 
-########## Spacy3 #################
+########## Spacy3 ################
 python -m venv .spacy3-env
 .spacy3-env\Scripts\activate
 pip install -U spacy
@@ -13,3 +18,26 @@ python -m spacy download de_core_news_sm
 
 // failed to download using above request method because of proxy. Download the model and pip install the file path to the tar.gz.model file
 pip install de_core_news_sm-3.0.0.tar.gz
+
+
+# install packages behind proxy 
+pip install --proxy=http://proxy.julius-kuehn.de:8000 pandas
+pip install -r requirements.txt --proxy=http://proxy.julius-kuehn.de:8000
+
+①永久设置：
+
+vim /etc/profile：
+    export http_proxy='http://代理服务器IP:端口号'
+    export https_proxy='http://代理服务器IP:端口号'
+source /etc/profile
+
+
+②临时设置（重连后失效）：
+也可以直接运行export http_proxy='http://代理服务器IP:端口号
+export https_proxy='http://代理服务器IP:端口号'
+
+注意：设置之后可能使用ping时还是无法连接外网，但是pip时可以的，因为ping的协议不一样不能使用这个代理
+
+③单次设置：
+直接在pip时设置代理也是可以的：
+pip install -r requirements.txt --proxy=代理服务器IP:端口号

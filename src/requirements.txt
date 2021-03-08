@@ -1,7 +1,9 @@
-fastapi
+fastapi==0.63.0 
 uvicorn
-spacy
+spacy==2.3.5
 slate3k
 jsonlines
 tika
 ujson
+pymongo
+pytesseract==0.3.7 

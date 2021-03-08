@@ -79,3 +79,21 @@ python -m prodigy db-out hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_AB
 
 
 python -m prodigy ner.correct Feldbau_MV_Neubrandenburg_2020 ./tmp_model_v2 M:\Projekt\HortiSem\data\input_text\Feldbau_MV_Neubrandenburg_2020.jsonl --label Kultur,Erreger,Mittel,Auftreten,BBCH_Stadium,Ort,Witterung,Zeit
+
+######### 09.02.2021 ##########
+python -m prodigy ner.correct Feldbau_MV_Greifswald_2015 ./tmp_model_v2 M:\Projekt\HortiSem\data\input_text\Feldbau_MV_Greifswald_2015.jsonl --label Kultur,Erreger,Mittel,Auftreten,BBCH_Stadium,Ort,Witterung,Zeit
+
+
+######### 16.02.2021 ##########
+python -m prodigy ner.correct Feldbau_MV_Rostock_2015 ./src/models/tmp_model_v2  C:\Users\xia.he\Project\Projekt\HortiSem\data\input_text\Feldbau_MV_Rostock_2015.jsonl --label Kultur,Erreger,Mittel,Auftreten,BBCH_Stadium,Ort,Witterung,Zeit
+
+
+22.02.2021
+python -m prodigy data-to-spacy ./train-data.json ./eval-data.json --lang de --ner hortisem_KEM_data,hortisem_KEM_data_correct,hortisem_ABDOWZ_data,gemuese_BB_2020,Feldbau_HE_2017,Feldbau_MV_Greifswald_2015,Feldbau_MV_Neubrandenburg_2020 --eval-split 0.2
+
+
+23.2.2021  ### convert the test dataset to spacy binary format 
+python -m spacy convert ./output/prodigy_annotation/test_dataset.jsonl ./Spacy3/ner_spacy3_hortisem/corpus
+
+python -m spacy evaluate ./training/model_best ./corpus/test.spacy --output ./training/metrics_test.json
+

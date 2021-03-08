@@ -31,3 +31,8 @@ papers
 hybrid_model
 model
 spacy_model
+.spacy3-env
+.spacy2-env
+
+app
+Results_analysis
